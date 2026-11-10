@@ -8,16 +8,17 @@ CarFinder is a responsive, client-side React application for discovering cars, n
 - Filter by make and body style; sort by price or model year.
 - Browse paginated results, open a car's detail page, and save favorites to `localStorage`.
 - Navigate between discovery, car details, and saved cars with React Router.
-- Load 2025 vehicle models for popular makes from the public NHTSA vPIC API, with loading, error, and retry states. The curated sample listings remain available if the API is offline.
+- Load current model-year passenger-car models across NHTSA makes in small batches. Model cards can be opened and saved; real model photos are searched from Wikimedia Commons and include image-source and license credits when available.
 - Responsive layouts for desktop, tablet, and mobile.
 
-Vehicle listings and prices are sample data for demonstration; they are not current offers. NHTSA supplies vehicle make and model names, not photos, prices, or current listings. NHTSA-powered cars use illustrative photos, and their prices and vehicle specifications are shown as unavailable rather than guessed.
+Vehicle listings and prices are sample data for demonstration; they are not current offers. NHTSA supplies vehicle make and model names, not photos, prices, or current listings. NHTSA-powered cars show the current model year, and prices and specifications are shown as unavailable rather than guessed. When Wikimedia Commons has no matching photo, the app uses a clearly labeled illustrative photo.
 
 ## API
 
 - [NHTSA vPIC API](https://vpic.nhtsa.dot.gov/api/): public vehicle and manufacturer database.
-- [Passenger-car makes endpoint](https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json)
-- [Vehicle models by make and year](https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/toyota/modelyear/2025/vehicletype/car?format=json): the app loads 2025 model names for popular manufacturers.
+- [Passenger-car makes endpoint](https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json): populates the make filter.
+- [Models by make and year endpoint](https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/toyota/modelyear/2026/vehicletype/car?format=json): supplies current-year passenger-car models for the inventory.
+- [Wikimedia Commons API](https://commons.wikimedia.org/w/api.php): searches model photos and provides source and license information for attribution.
 
 The app also loads vehicle photography from [Unsplash](https://unsplash.com/). Both services are accessed directly by the browser.
 

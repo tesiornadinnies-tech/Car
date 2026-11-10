@@ -7,6 +7,10 @@ const CARS = [
   { id: 'toyota-camry', make: 'Toyota', model: 'Camry', trim: 'XSE · 2.5L Hybrid', year: 2025, price: 34850, mileage: 'New', fuel: 'Hybrid', transmission: 'Automatic', type: 'Sedan', image: 'photo-1621007947382-bb3c3994e3fb', color: 'Pearl White', description: 'Comfortable, refined, and remarkably efficient. The Camry XSE brings confident handling and a thoughtfully finished cabin to every drive.' },
   { id: 'bmw-3-series', make: 'BMW', model: '3 Series', trim: '330i · Sport Line', year: 2025, price: 45900, mileage: 'New', fuel: 'Petrol', transmission: 'Automatic', type: 'Sedan', image: 'photo-1555215695-3004980ad54e', color: 'Mineral Grey', description: 'A driver-focused sport sedan with precise steering, a composed ride, and the technology you need for the everyday.' },
   { id: 'honda-cr-v', make: 'Honda', model: 'CR-V', trim: 'EX-L · AWD', year: 2025, price: 36950, mileage: 'New', fuel: 'Petrol', transmission: 'Automatic', type: 'SUV', image: 'photo-1519641471654-76ce0107ad1b', color: 'Platinum White', description: 'Room for the whole family, useful cargo space, and an easy-to-live-with cabin make the CR-V a versatile companion.' },
+  { id: 'honda-civic', make: 'Honda', model: 'Civic', trim: 'Sport Touring · 1.5L Turbo', year: 2025, price: 31250, mileage: 'New', fuel: 'Petrol', transmission: 'Automatic', type: 'Sedan', image: 'photo-1590362891991-f776e747a588', color: 'Rallye Red', description: 'A nimble compact sedan with a comfortable cabin, lively turbocharged performance, and everyday practicality.' },
+  { id: 'honda-accord', make: 'Honda', model: 'Accord', trim: 'Sport-L · Hybrid', year: 2025, price: 36850, mileage: 'New', fuel: 'Hybrid', transmission: 'Automatic', type: 'Sedan', image: 'photo-1552519507-da3b142c6e3d', color: 'Still Night Pearl', description: 'A spacious, refined hybrid sedan that pairs smooth acceleration with excellent day-to-day efficiency.' },
+  { id: 'honda-pilot', make: 'Honda', model: 'Pilot', trim: 'TrailSport · AWD', year: 2025, price: 50350, mileage: 'New', fuel: 'Petrol', transmission: 'Automatic', type: 'SUV', image: 'photo-1549317661-bd32c8ce0db2', color: 'Diffused Sky Blue', description: 'Three-row comfort, generous cargo room, and all-wheel-drive capability make the Pilot ready for family adventures.' },
+  { id: 'honda-hr-v', make: 'Honda', model: 'HR-V', trim: 'EX-L · AWD', year: 2025, price: 30400, mileage: 'New', fuel: 'Petrol', transmission: 'Automatic', type: 'SUV', image: 'photo-1605559424843-9e4c228bf1c2', color: 'Nordic Forest Pearl', description: 'A city-friendly SUV with flexible cargo space, a thoughtfully designed interior, and confident all-weather traction.' },
   { id: 'porsche-911', make: 'Porsche', model: '911', trim: 'Carrera · 3.0L', year: 2024, price: 120950, mileage: '3,200 mi', fuel: 'Petrol', transmission: 'Automatic', type: 'Coupe', image: 'photo-1503376780353-7e6692767b70', color: 'Chalk', description: 'Iconic proportions meet a twin-turbo flat-six and precise balance. This Carrera makes every open stretch feel special.' },
   { id: 'mercedes-c-class', make: 'Mercedes-Benz', model: 'C-Class', trim: 'C 300 · AMG Line', year: 2025, price: 48950, mileage: 'New', fuel: 'Petrol', transmission: 'Automatic', type: 'Sedan', image: 'photo-1618843479313-40f8afb4b4d8', color: 'Obsidian Black', description: 'A beautifully appointed, quiet cabin and effortless performance give the C-Class its unmistakable sense of occasion.' },
   { id: 'ford-mustang', make: 'Ford', model: 'Mustang', trim: 'GT · 5.0L V8', year: 2024, price: 42720, mileage: '1,850 mi', fuel: 'Petrol', transmission: 'Manual', type: 'Coupe', image: 'photo-1584345604476-8ec5e12e42dd', color: 'Race Red', description: 'A naturally aspirated V8, a proper manual gearbox, and unmistakable Mustang character, ready for the long way home.' },
@@ -18,7 +22,11 @@ const CARS = [
   { id: 'hyundai-ioniq-5', make: 'Hyundai', model: 'IONIQ 5', trim: 'SEL · Long Range', year: 2025, price: 46850, mileage: 'New', fuel: 'Electric', transmission: 'Automatic', type: 'SUV', image: 'photo-1593941707882-a5bba14938c7', color: 'Digital Teal', description: 'Distinctive retro-modern design, a spacious flat-floor cabin, and rapid charging make the IONIQ 5 an electric standout.' },
 ]
 
-const API_MAKES = ['Acura', 'Audi', 'BMW', 'Chevrolet', 'Ford', 'Honda', 'Hyundai', 'Jeep', 'Kia', 'Lexus', 'Mazda', 'Mercedes-Benz', 'Nissan', 'Subaru', 'Tesla', 'Toyota', 'Volkswagen', 'Volvo']
+const API_MAKES_URL = 'https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json'
+const API_MODELS_URL = 'https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear'
+const COMMONS_API_URL = 'https://commons.wikimedia.org/w/api.php'
+const MODEL_YEAR = new Date().getFullYear()
+const MODEL_BATCH_SIZE = 6
 const API_IMAGES = [
   'photo-1621007947382-bb3c3994e3fb',
   'photo-1555215695-3004980ad54e',
@@ -26,58 +34,124 @@ const API_IMAGES = [
   'photo-1503376780353-7e6692767b70',
   'photo-1618843479313-40f8afb4b4d8',
   'photo-1584345604476-8ec5e12e42dd',
-  'photo-1560958089-b8a1929cea89',
-  'photo-1606664515524-ed2f786a0bd6',
-  'photo-1511919884226-fd3cad34687c',
-  'photo-1504215680853-026ed2a45def',
-  'photo-1533473359331-0135ef1b58bf',
-  'photo-1593941707882-a5bba14938c7',
 ]
 
-function makeApiCars(results, existingCars) {
-  const existingModels = new Set(existingCars.map((car) => `${car.make.toLowerCase()}|${car.model.toLowerCase()}`))
-  const seenModels = new Set(existingModels)
-  const addedCars = []
+const formatPrice = (price) => `$${price.toLocaleString('en-US')}`
 
-  for (const result of results) {
-    if (result.status !== 'fulfilled') continue
-
-    for (const vehicle of result.value) {
-      if (typeof vehicle.Model_Name !== 'string' || !vehicle.Model_Name.trim()) continue
-      const make = API_MAKES.find((name) => name.toLowerCase() === vehicle.Make_Name?.toLowerCase())
-      if (!make) continue
-
-      const model = vehicle.Model_Name.trim()
-      const modelKey = `${make.toLowerCase()}|${model.toLowerCase()}`
-      if (seenModels.has(modelKey)) continue
-      seenModels.add(modelKey)
-
-      const imageIndex = Array.from(`${make} ${model}`).reduce((hash, character) => hash + character.charCodeAt(0), 0) % API_IMAGES.length
-      const id = `nhtsa-${make}-${model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-
-      addedCars.push({
-        id,
-        make,
-        model,
-        trim: 'NHTSA vehicle model',
-        year: 2025,
-        price: null,
-        mileage: null,
-        fuel: null,
-        transmission: null,
-        type: 'Passenger car',
-        image: API_IMAGES[imageIndex],
-        color: null,
-        source: 'nhtsa',
-        description: `${make} ${model} is listed in the NHTSA public vehicle database for model year 2025. Pricing and vehicle specifications are not provided by this API.`,
-      })
-    }
-  }
-
-  return addedCars
+function formatMakeName(name) {
+  const trimmedName = name.trim()
+  const existingMake = CARS.find((car) => car.make.toLowerCase() === trimmedName.toLowerCase())
+  return existingMake?.make ?? trimmedName.toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())
 }
 
-const formatPrice = (price) => `$${price.toLocaleString('en-US')}`
+function makeApiCars(make, results, existingCars) {
+  const seenModels = new Set(existingCars
+    .filter((car) => car.make.toLowerCase() === make.toLowerCase())
+    .map((car) => car.model.toLowerCase()))
+
+  return results.reduce((cars, vehicle) => {
+    if (typeof vehicle.Model_Name !== 'string' || !vehicle.Model_Name.trim()) return cars
+
+    const model = vehicle.Model_Name.trim()
+    const normalizedModel = model.toLowerCase()
+    if (seenModels.has(normalizedModel)) return cars
+    seenModels.add(normalizedModel)
+
+    const imageIndex = Array.from(`${make} ${model}`).reduce((hash, character) => hash + character.charCodeAt(0), 0) % API_IMAGES.length
+    const id = `nhtsa-${make}-${vehicle.Model_ID ?? model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+
+    cars.push({
+      id,
+      make,
+      model,
+      trim: 'NHTSA vehicle model',
+      year: MODEL_YEAR,
+      price: null,
+      mileage: null,
+      fuel: null,
+      transmission: null,
+      type: 'Passenger car',
+      image: API_IMAGES[imageIndex],
+      color: null,
+      source: 'nhtsa',
+      description: `${make} ${model} is listed in the NHTSA database for model year ${MODEL_YEAR}. Pricing and vehicle specifications are not provided by this API.`,
+    })
+    return cars
+  }, [])
+}
+
+function VehiclePhoto({ car, className = '', linkTo }) {
+  const [photo, setPhoto] = useState(null)
+  const [photoLoaded, setPhotoLoaded] = useState(false)
+  const vehicleName = `${car.year ? `${car.year} ` : ''}${car.make} ${car.model}`
+  const fallbackImage = `https://images.unsplash.com/${car.image}?auto=format&fit=crop&w=900&q=82`
+  const image = <img className={className} src={photo?.url || fallbackImage} alt={vehicleName} loading="lazy" />
+
+  useEffect(() => {
+    if (car.source !== 'nhtsa') return undefined
+
+    const controller = new AbortController()
+    async function fetchPhoto() {
+      try {
+        const parameters = new URLSearchParams({
+          action: 'query',
+          generator: 'search',
+          gsrsearch: `filetype:bitmap "${car.make} ${car.model}"`,
+          gsrnamespace: '6',
+          gsrlimit: '1',
+          prop: 'imageinfo',
+          iiprop: 'url|extmetadata',
+          iiurlwidth: '900',
+          format: 'json',
+          origin: '*',
+        })
+        const response = await fetch(`${COMMONS_API_URL}?${parameters}`, { signal: controller.signal })
+        if (!response.ok) throw new Error(`Wikimedia Commons returned ${response.status}`)
+        const data = await response.json()
+        const page = Object.values(data.query?.pages ?? {})[0]
+        const imageInfo = page?.imageinfo?.[0]
+        const title = page?.title?.toLowerCase() || ''
+        const searchableTitle = title.replace(/[^a-z0-9]+/g, ' ')
+        const requiredTerms = `${car.make} ${car.model}`.toLowerCase().match(/[a-z0-9]+/g)?.filter((term) => term.length > 1) ?? []
+        if (!imageInfo?.thumburl || !imageInfo.descriptionurl || !requiredTerms.every((term) => searchableTitle.includes(term))) {
+          setPhotoLoaded(true)
+          return
+        }
+
+        const artistHtml = imageInfo.extmetadata?.Artist?.value || ''
+        const artist = new DOMParser().parseFromString(artistHtml, 'text/html').body.textContent?.trim()
+        setPhoto({
+          url: imageInfo.thumburl,
+          pageUrl: imageInfo.descriptionurl,
+          artist: artist || 'Wikimedia Commons contributor',
+          license: imageInfo.extmetadata?.LicenseShortName?.value || 'Wikimedia Commons',
+        })
+        setPhotoLoaded(true)
+      } catch (error) {
+        if (controller.signal.aborted) return
+        console.error(`Could not load a photo for ${car.make} ${car.model}:`, error)
+        setPhotoLoaded(true)
+      }
+    }
+
+    fetchPhoto()
+    return () => controller.abort()
+  }, [car.id, car.make, car.model, car.source])
+
+  return (
+    <>
+      {linkTo
+        ? <Link to={linkTo} className="card-image-link" aria-label={`View ${vehicleName}`}>{image}</Link>
+        : image}
+      {car.source === 'nhtsa' && (
+        <span className="image-label">{photo ? 'Model photo' : photoLoaded ? 'Illustrative photo' : 'Finding model photo…'}</span>
+      )}
+      {photo && <a className="photo-credit" href={photo.pageUrl} target="_blank" rel="noreferrer" title={`Photo by ${photo.artist}, ${photo.license}`}>
+        Photo: {photo.artist} · {photo.license}
+      </a>}
+    </>
+  )
+}
 
 function readFavorites() {
   try {
@@ -132,15 +206,8 @@ function CarCard({ car, isFavorite, onToggleFavorite }) {
   return (
     <article className="car-card">
       <div className="card-image-wrap">
-        <Link to={`/car/${car.id}`} className="card-image-link" aria-label={`View ${car.year} ${car.make} ${car.model}`}>
-          <img
-            className="car-image"
-            src={`https://images.unsplash.com/${car.image}?auto=format&fit=crop&w=900&q=82`}
-            alt={`${car.year} ${car.make} ${car.model}`}
-            loading="lazy"
-          />
-        </Link>
-        <span className="image-label">{car.source === 'nhtsa' ? 'Illustrative photo' : car.mileage === 'New' ? 'Brand new' : 'Pre-owned'}</span>
+        <VehiclePhoto car={car} className="car-image" linkTo={`/car/${car.id}`} />
+        {car.source !== 'nhtsa' && <span className="image-label">{car.mileage === 'New' ? 'Brand new' : 'Pre-owned'}</span>}
         <button
           type="button"
           className={`favorite-button${isFavorite ? ' is-favorite' : ''}`}
@@ -154,7 +221,7 @@ function CarCard({ car, isFavorite, onToggleFavorite }) {
       <div className="card-body">
         <div className="card-heading">
           <div>
-            <p className="car-make">{car.make} <span>· {car.year}</span></p>
+            <p className="car-make">{car.make}{car.year && <span> · {car.year}</span>}</p>
             <h3><Link to={`/car/${car.id}`}>{car.model}</Link></h3>
           </div>
           <span className={`car-price${car.price === null ? ' price-unavailable' : ''}`}>{car.price === null ? 'Price not listed' : formatPrice(car.price)}</span>
@@ -162,7 +229,7 @@ function CarCard({ car, isFavorite, onToggleFavorite }) {
         <p className="car-trim">{car.trim}</p>
         <div className="car-specs">
           {car.source === 'nhtsa'
-            ? <><span>2025 model</span><span>Passenger car</span><span>NHTSA data</span></>
+            ? <><span>{car.year} model</span><span>Passenger car</span><span>NHTSA data</span></>
             : <><span>{car.fuel}</span><span>{car.transmission}</span><span>{car.mileage}</span></>}
         </div>
         <Link className="card-details-link" to={`/car/${car.id}`}>View details <Icon name="arrow" size={16} /></Link>
@@ -207,14 +274,14 @@ function Pagination({ page, pageCount, onChange }) {
   )
 }
 
-function Inventory({ cars, favorites, onToggleFavorite, initialQuery = '', title = 'Find your next car', description = 'A little less scrolling. A lot more falling in love.', showHero = true, apiStatus, apiMessage, onRetry }) {
+function Inventory({ cars, favorites, onToggleFavorite, makes = [], initialQuery = '', title = 'Find your next car', description = 'A little less scrolling. A lot more falling in love.', showHero = true, apiStatus, apiMessage, onRetry }) {
   const [query, setQuery] = useState(initialQuery)
   const [make, setMake] = useState('All makes')
   const [type, setType] = useState('All body styles')
   const [sort, setSort] = useState('recommended')
   const [page, setPage] = useState(1)
   const pageSize = 6
-  const makeOptions = [...new Set(cars.map((car) => car.make))].sort()
+  const makeOptions = [...new Set([...makes, ...cars.map((car) => car.make)])].sort((a, b) => a.localeCompare(b))
   const typeOptions = [...new Set(cars.map((car) => car.type))].sort()
 
   const filteredCars = useMemo(() => {
@@ -232,7 +299,13 @@ function Inventory({ cars, favorites, onToggleFavorite, initialQuery = '', title
         return direction * (a.price - b.price)
       })
     }
-    if (sort === 'year-new') matches.sort((a, b) => b.year - a.year)
+    if (sort === 'year-new') {
+      matches.sort((a, b) => {
+        if (a.year === null) return b.year === null ? a.model.localeCompare(b.model) : 1
+        if (b.year === null) return -1
+        return b.year - a.year
+      })
+    }
     return matches
   }, [cars, query, make, type, sort])
 
@@ -316,11 +389,11 @@ function DetailPage({ cars, favorites, onToggleFavorite }) {
       <button type="button" className="back-link" onClick={() => navigate(-1)}>← Back to cars</button>
       <div className="detail-layout">
         <div className="detail-image-wrap">
-          <img src={`https://images.unsplash.com/${car.image}?auto=format&fit=crop&w=1400&q=88`} alt={`${car.year} ${car.make} ${car.model}`} />
-          <span className="image-label">{car.source === 'nhtsa' ? 'Illustrative photo' : car.mileage === 'New' ? 'Brand new' : 'Pre-owned'}</span>
+          <VehiclePhoto car={car} />
+          {car.source !== 'nhtsa' && <span className="image-label">{car.mileage === 'New' ? 'Brand new' : 'Pre-owned'}</span>}
         </div>
         <section className="detail-info">
-          <span className="section-kicker">{car.year} · {car.type.toUpperCase()}</span>
+          <span className="section-kicker">{car.year || 'YEAR NOT LISTED'} · {car.type.toUpperCase()}</span>
           <h1>{car.make}<br /><span>{car.model}</span></h1>
           <p className="detail-trim">{car.trim}{car.color && <> <span>·</span> {car.color}</>}</p>
           <p className="detail-price">{car.price === null ? 'Price not listed' : formatPrice(car.price)}{car.price !== null && <span>est. asking price</span>}</p>
@@ -334,7 +407,7 @@ function DetailPage({ cars, favorites, onToggleFavorite }) {
           <button type="button" className={`detail-favorite${isFavorite ? ' saved' : ''}`} onClick={() => onToggleFavorite(car.id)}>
             <Icon name="heart" size={19} /> {isFavorite ? 'Saved to your favorites' : 'Save to favorites'}
           </button>
-          <p className="detail-disclaimer">{car.source === 'nhtsa' ? 'Model information provided by NHTSA. The photo is illustrative; pricing and specifications are not provided by the API.' : 'Prices and vehicle details are sample listings for demonstration.'}</p>
+          <p className="detail-disclaimer">{car.source === 'nhtsa' ? 'Model information provided by NHTSA. The photo links to its Wikimedia Commons source and license when available; pricing and specifications are not provided by the API.' : 'Prices and vehicle details are sample listings for demonstration.'}</p>
         </section>
       </div>
       <section className="more-cars"><span className="section-kicker">KEEP EXPLORING</span><h2>More good finds</h2><CarGrid cars={cars.filter((item) => item.id !== car.id).slice(0, 3)} favorites={favorites} onToggleFavorite={onToggleFavorite} /></section>
@@ -347,17 +420,19 @@ function Footer({ apiStatus }) {
     <footer className="site-footer">
       <Link className="brand footer-brand" to="/"><span className="brand-mark"><Icon name="car" size={21} /></span><span>carfinder<span className="brand-period">.</span></span></Link>
       <p>Made for the joy of finding your next drive.</p>
-      <span className="api-credit"><span className={`api-status-dot ${apiStatus}`} /> Vehicle models by <a href="https://vpic.nhtsa.dot.gov/api/" target="_blank" rel="noreferrer">NHTSA vPIC API</a></span>
+      <span className="api-credit"><span className={`api-status-dot ${apiStatus}`} /> Vehicle data by <a href="https://vpic.nhtsa.dot.gov/api/" target="_blank" rel="noreferrer">NHTSA vPIC API</a> · Photos by <a href="https://commons.wikimedia.org/" target="_blank" rel="noreferrer">Wikimedia Commons</a></span>
     </footer>
   )
 }
 
 function App() {
   const [favorites, setFavorites] = useState(readFavorites)
-  const [cars, setCars] = useState(CARS)
+  const [modelCars, setModelCars] = useState([])
+  const [makes, setMakes] = useState(() => [...new Set(CARS.map((car) => car.make))].sort((a, b) => a.localeCompare(b)))
   const [apiStatus, setApiStatus] = useState('loading')
   const [apiMessage, setApiMessage] = useState('')
   const [apiRetry, setApiRetry] = useState(0)
+  const cars = [...CARS, ...modelCars]
 
   useEffect(() => {
     try {
@@ -372,50 +447,80 @@ function App() {
 
     const controller = new AbortController()
 
-    async function fetchVehicleModels() {
+    async function fetchVehicleMakes() {
       setApiStatus('loading')
-      setApiMessage('Loading 2025 vehicle models from the NHTSA database…')
+      setApiMessage('Loading passenger-car makes from the NHTSA database…')
       try {
-        const results = await Promise.allSettled(API_MAKES.map(async (make) => {
-          const response = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/${encodeURIComponent(make)}/modelyear/2025/vehicletype/car?format=json`, { signal: controller.signal })
-          if (!response.ok) throw new Error(`Vehicle database returned ${response.status} for ${make}`)
-          const data = await response.json()
-          if (!Array.isArray(data.Results)) throw new Error(`Vehicle database returned an unexpected response for ${make}`)
-          return data.Results
-        }))
+        const response = await fetch(API_MAKES_URL, { signal: controller.signal })
+        if (!response.ok) throw new Error(`Vehicle database returned ${response.status}`)
+        const data = await response.json()
+        if (!Array.isArray(data.Results)) throw new Error('Vehicle database returned an unexpected response')
+
+        const apiMakes = [...new Map(data.Results
+          .filter((vehicle) => typeof vehicle.MakeName === 'string' && vehicle.MakeName.trim())
+          .map((vehicle) => [formatMakeName(vehicle.MakeName), vehicle.MakeName]).filter(([name]) => name))]
+          .map(([name, apiName]) => ({ name, apiName }))
+          .sort((a, b) => a.name.localeCompare(b.name))
 
         if (controller.signal.aborted) return
 
-        results.forEach((result, index) => {
-          if (result.status === 'rejected') console.error(`Could not load ${API_MAKES[index]} models:`, result.reason)
-        })
+        if (apiMakes.length === 0) {
+          setApiStatus('error')
+          setApiMessage('NHTSA returned no passenger-car makes. The sample-car collection is still ready to browse.')
+          return
+        }
 
-        const apiCars = makeApiCars(results, CARS)
-        const failedMakes = results.filter((result) => result.status === 'rejected').length
+        const allModels = []
+        const failedMakes = []
+
+        for (let offset = 0; offset < apiMakes.length; offset += MODEL_BATCH_SIZE) {
+          if (controller.signal.aborted) return
+
+          const batch = apiMakes.slice(offset, offset + MODEL_BATCH_SIZE)
+          const results = await Promise.allSettled(batch.map(async ({ name, apiName }) => {
+            const url = `${API_MODELS_URL}/make/${encodeURIComponent(apiName)}/modelyear/${MODEL_YEAR}/vehicletype/car?format=json`
+            const response = await fetch(url, { signal: controller.signal })
+            if (!response.ok) throw new Error(`Vehicle database returned ${response.status} for ${name}`)
+            const modelsData = await response.json()
+            if (!Array.isArray(modelsData.Results)) throw new Error(`Vehicle database returned an unexpected response for ${name}`)
+            return { name, results: modelsData.Results }
+          }))
+
+          results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+              failedMakes.push(batch[index].name)
+              console.error(`Could not load ${batch[index].name} models:`, result.reason)
+              return
+            }
+            allModels.push(...makeApiCars(result.value.name, result.value.results, [...CARS, ...allModels]))
+          })
+
+          if (!active || controller.signal.aborted) return
+          setModelCars([...allModels])
+          setApiMessage(`Loading ${MODEL_YEAR} car models: ${Math.min(offset + batch.length, apiMakes.length)} of ${apiMakes.length} makes checked, ${allModels.length} models found…`)
+        }
+
         if (active) {
-          setCars([...CARS, ...apiCars])
-          if (apiCars.length > 0) {
-            setApiStatus('success')
-            setApiMessage(`Showing ${apiCars.length} additional 2025 vehicle models from the NHTSA database${failedMakes ? ` · ${failedMakes} makes could not be loaded` : ''}. Photos are illustrative; the API does not provide listings or prices.`)
-          } else if (failedMakes > 0) {
-            setApiStatus('error')
-            setApiMessage('NHTSA vehicle models could not be loaded. The original sample-car collection is still ready to browse.')
+          if (allModels.length > 0) {
+            setMakes([...new Set([...CARS.map((car) => car.make), ...allModels.map((car) => car.make)])].sort((a, b) => a.localeCompare(b)))
+            setApiStatus(failedMakes.length ? 'error' : 'success')
+            setApiMessage(`Loaded ${allModels.length} ${MODEL_YEAR} passenger-car models across all makes${failedMakes.length ? `; ${failedMakes.length} makes could not be loaded` : ''}. Photos are sourced from Wikimedia Commons when available; these are not listings for sale.`)
           } else {
-            setApiStatus('success')
-            setApiMessage('The NHTSA database is connected. The original car collection is ready to browse.')
+            setApiStatus('error')
+            setApiMessage(`NHTSA returned no ${MODEL_YEAR} passenger-car models. The sample-car collection is still ready to browse.`)
           }
         }
       } catch (error) {
         if (controller.signal.aborted) return
-        console.error('Could not load vehicle makes:', error)
+        console.error('Could not load passenger-car makes:', error)
         if (active) {
           setApiStatus('error')
-          setApiMessage('NHTSA vehicle models could not be loaded. The original sample-car collection is still ready to browse.')
+          setApiMessage('NHTSA vehicle makes could not be loaded. The sample-car collection is still ready to browse.')
         }
       }
     }
 
-    fetchVehicleModels()
+    fetchVehicleMakes()
     return () => {
       active = false
       controller.abort()
@@ -432,7 +537,7 @@ function App() {
     <div className="app-shell">
       <Header favoriteCount={favorites.length} />
       <Routes>
-        <Route path="/" element={<Inventory cars={cars} favorites={favorites} onToggleFavorite={toggleFavorite} apiStatus={apiStatus} apiMessage={apiMessage} onRetry={() => setApiRetry((attempt) => attempt + 1)} />} />
+        <Route path="/" element={<Inventory cars={cars} favorites={favorites} makes={makes} onToggleFavorite={toggleFavorite} apiStatus={apiStatus} apiMessage={apiMessage} onRetry={() => { setModelCars([]); setApiRetry((attempt) => attempt + 1) }} />} />
         <Route path="/favorites" element={<Inventory cars={favoriteCars} favorites={favorites} onToggleFavorite={toggleFavorite} title="Cars you’ve got your eye on" description={favoriteCars.length ? 'Your saved cars, all in one happy little place.' : 'Tap the heart on any car to save it for later.'} showHero={false} />} />
         <Route path="/car/:carId" element={<DetailPage cars={cars} favorites={favorites} onToggleFavorite={toggleFavorite} />} />
         <Route path="*" element={<main className="not-found"><span className="section-kicker">404 · WRONG TURN</span><h1>We can’t find that road.</h1><Link className="hero-button" to="/">Back to discovery <Icon name="arrow" size={16} /></Link></main>} />
